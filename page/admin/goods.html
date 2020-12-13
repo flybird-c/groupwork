@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
+    <script type="text/javascript" src="../../js/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.js"></script>
+    <script>
+        $(function () {
+            let goods=[
+                {id:1,goodsName:"英雄1",goodsNumber:999,goodsPri:100,goodsImg:"../../myimages/goods/01.jpg",goodsSell:10000,goodsType:"皮肤",goodsState:"上架"},
+                {id:2,goodsName:"英雄2",goodsNumber:999,goodsPri:200,goodsImg:"../../myimages/goods/02.jpg",goodsSell:10000,goodsType:"皮肤",goodsState:"上架"},
+                {id:3,goodsName:"英雄3",goodsNumber:999,goodsPri:300,goodsImg:"../../myimages/goods/03.jpg",goodsSell:10000,goodsType:"皮肤",goodsState:"上架"},
+                {id:4,goodsName:"英雄4",goodsNumber:999,goodsPri:400,goodsImg:"../../myimages/goods/04.jpg",goodsSell:10000,goodsType:"皮肤",goodsState:"上架"},
+            ]
+            let str=""
+            str+='<table class="col-md-12 table-bordered text-center table-hover">'
+            str+='<tr style="line-height:60px">'
+            str+='<td><input type="checkbox" class="CAll">全选/全消</td>'
+            str+='<td>编号</td>'
+            str+='<td>商品名称</td>'
+            str+='<td>商品数量</td>'
+            str+='<td>商品价格</td>'
+            str+='<td>商品图片</td>'
+            str+='<td>商品销量</td>'
+            str+='<td>商品类别</td>'
+            str+='<td>状态(上/下架)</td>'
+            str+=' <td colspan="2">操作</td>'
+
+            str+='</tr>'
+            for (let good of goods) {
+                str+="<tr>"
+                str+="<td>选择<input type=\"checkbox\" class='COne'></td>"
+                str+="<td>"+good.id+"</td>"
+                str+="<td>"+good.goodsName+"</td>"
+                str+="<td>"+good.goodsNumber+"件</td>"
+                str+="<td>"+good.goodsPri+"元</td>"
+                str+=" <td><img src='"+good.goodsImg+"' width='60px' ></td>"
+                str+=" <td>"+good.goodsSell+"件</td>"
+                str+=" <td>"+good.goodsType+"</td>"
+                str+=" <td>"+good.goodsState+"</td>"
+                str+= '<td><a href="#" class="btn btn-danger" onclick="deleteUser(this)"><span class="glyphicon glyphicon-remove"></span>删除</a></td>'
+                str+= '<td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#updateModal"><span class="glyphicon glyphicon-pencil"></span>修改</a></td>'
+                str+= '</tr>'
+            }
+            str+='</table>'
+            $("#table").append(str)
+
+
+
+            $(".CAll").click(function () {
+                $(".COne").prop({checked:$(".CAll").prop("checked")})
+            })
+
+            $(".COne").click(function () {
+                let flag=true
+                $(".COne").each(function () {
+
+                    if ($(this).prop("checked")){
+                        $(".CAll").prop({checked:flag})
+
+                    }else {
+                        flag=false
+                        $(".CAll").prop({checked:flag})
+
+                    }
+                })
+
+            })
+
+
+        })
+
+        function deleteUser(deleteUser) {
+            let trDom=deleteUser.parentNode.parentNode
+            trDom.remove();
+        }
+    </script>
+    <style>
+        #addForm input,#updateForm input{
+            width:50%;
+        }
+        #addForm,#updateForm{
+            padding: 20px 0px;
+        }
+        #addForm p,#updateForm p{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!--1.添加模态框-->
+<div id="addModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">添加用户</h4>
+            </div>
+            <div class="media-body">
+                <form class="form-inline text-center" id="addForm">
+                    <p>
+                        <img src="../../images/goods/5.jpg" width="100px" >
+                    </p>
+                    <p>
+                        　商品名:<input type="text" name="goodsName" class="form-control" placeholder="请输入商品名">
+                    </p>
+                    <p>
+                        商品数量:<input type="text" name="goodsNum" class="form-control" placeholder="请输入商品数量">
+                    </p>
+                    <p>
+                        商品价格:<input type="text" name="goodsPrice" class="form-control" placeholder="请输入商品价格">
+                    </p>
+                    <p>
+                        商品图片:<input type="file" name="goodsImg" class="form-control" >
+                    </p>
+                    <p>
+                        <button type="button" class="btn btn-primary" >确认修改</button>
+                        <button type="button" class="btn btn-primary"  data-dismiss="modal">返回首页</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--2.修改模态框-->
+<div id="updateModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">修改商品</h4>
+            </div>
+            <div class="media-body">
+                <form class="form-inline text-center" id="updateForm">
+                    <p>
+                        <img src="../../images/goods/5.jpg" width="100px" >
+                    </p>
+                    <p>
+                        　编　号:<input type="text" name="goodsId" class="form-control" placeholder="请输入商品编号">
+                    </p>
+                    <p>
+                        　商品名:<input type="text" name="goodsName" class="form-control" placeholder="请输入商品名">
+                    </p>
+                    <p>
+                        商品数量:<input type="text" name="goodsNum" class="form-control" placeholder="请输入商品数量">
+                    </p>
+                    <p>
+                        商品价格:<input type="text" name="goodsPrice" class="form-control" placeholder="请输入商品价格">
+                    </p>
+                    <p>
+                        商品图片:<input type="file" name="goodsImg" class="form-control" >
+                    </p>
+                    <p>
+                        <button type="button" class="btn btn-primary" >确认添加</button>
+                        <button type="button" class="btn btn-primary"  data-dismiss="modal">返回首页</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--3.上传模态框-->
+<div id="upModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">上传文件</h4>
+            </div>
+            <div class="media-body">
+                <form class="form-inline text-center">
+                    <p style="margin-top: 20px">
+                        选择文件:<input type="file" class="form-control" name="fileName">
+                    </p>
+                    <p>
+                        <input type="button" value="开始上传" class="btn btn-primary">
+                        <input type="button" value="返回首页" class="btn btn-primary" data-dismiss="modal">
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--4.主体内容-->
+<div class="container-fluid">
+    <div class="row" style="line-height: 60px">
+        <form class="col-md-8 form-inline ">
+            商品名称:
+            <input type="text" placeholder="请输入商品名称" class="form-control" style="width:140px">
+            　价格范围:
+            <input type="number" placeholder="请输入价格" class="form-control" style="width:140px">
+            -<input type="number" placeholder="请输入价格" class="form-control" style="width:140px">
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>搜索</button>
+        </form>
+
+        <div class="navbar-right text-right" style="margin-right: 20px">
+            <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>下载</a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#upModal"><span class="glyphicon glyphicon-upload"></span>上传</button>
+            <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-remove-sign"></span>批量删除</button>
+            <button type="button" class="btn btn-info " data-toggle="modal" data-target="#addModal"><span class="glyphicon glyphicon-plus"></span>添加</button>
+        </div>
+    </div>
+    <div class="row" id="table">
+
+    </div>
+    <div class="text-center">
+        <ul class="pagination">
+            <li><a href="#">&laquo;</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

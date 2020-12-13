@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
+    <script type="text/javascript" src="../../js/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.js"></script>
+    <script>
+        $(function () {
+            let order=[
+                {orderId:2020052002,goodsName:"英雄1",orderGoodsNumber:2,goodsPri:100,goodsImg:"../../myimages/goods/01.jpg",placeOrderTime:"2020-05-20",ReceivingTime:"未收货",orderType:"待收货"},
+                {orderId:2020052002,goodsName:"英雄2",orderGoodsNumber:2,goodsPri:200,goodsImg:"../../myimages/goods/02.jpg",placeOrderTime:"2020-05-20",ReceivingTime:"未收货",orderType:"待收货"},
+                {orderId:2020052002,goodsName:"英雄3",orderGoodsNumber:2,goodsPri:300,goodsImg:"../../myimages/goods/03.jpg",placeOrderTime:"2020-05-20",ReceivingTime:"未收货",orderType:"待收货"},
+                {orderId:2020052002,goodsName:"英雄4",orderGoodsNumber:2,goodsPri:400,goodsImg:"../../myimages/goods/04.jpg",placeOrderTime:"2020-05-20",ReceivingTime:"未收货",orderType:"待收货"},
+            ]
+            let str=""
+            str+=' <table class="col-md-12 table-bordered text-center table-hover">'
+            str+='<tr style="line-height:60px">'
+            str+='<td><input type="checkbox" class="CAll">全选/全消</td>'
+            str+=' <td>订单编号</td>'
+            str+=' <td>商品名称</td>'
+            str+=' <td>商品数量</td>'
+            str+=' <td>商品价格</td>'
+            str+=' <td>小计</td>'
+            str+=' <td>商品图片</td>'
+            str+=' <td>下单时间</td>'
+            str+=' <td>收货时间</td>'
+            str+=' <td>状态</td>'
+            str+=' <td>操作</td>'
+            str+=' </tr>'
+            for (let e of order) {
+                str+='<tr>'
+                str+=' <td>选择<input type="checkbox" class="COne"></td>'
+                str+=' <td>'+e.orderId+'</td>'
+                str+=' <td>'+e.goodsName+'</td>'
+                str+=' <td>'+e.orderGoodsNumber+'件</td>'
+                str+=' <td>'+e.goodsPri+'元</td>'
+                str+=' <td>'+e.goodsPri*e.orderGoodsNumber+'元</td>'
+                str+='<td><img src="'+e.goodsImg+'" width="60px" ></td>'
+                str+='<td>'+e.placeOrderTime+'</td>'
+                str+='<td>'+e.ReceivingTime+'</td>'
+                str+='<td>'+e.orderType+'</td>'
+                str+=' <td><a href="#" class="btn btn-danger" onclick="deleteUser(this)"><span class="glyphicon glyphicon-remove"></span>删除</a></td>'
+                str+='</tr>'
+            }
+            str+=' </table>'
+            $("#table").append(str)
+
+
+
+            $(".CAll").click(function () {
+                $(".COne").prop({checked:$(".CAll").prop("checked")})
+            })
+
+            $(".COne").click(function () {
+                let flag=true
+                $(".COne").each(function () {
+
+                    if ($(this).prop("checked")){
+                        $(".CAll").prop({checked:flag})
+
+                    }else {
+                        flag=false
+                        $(".CAll").prop({checked:flag})
+
+                    }
+                })
+
+            })
+
+
+
+        })
+        function deleteUser(deleteUser) {
+            let trDom=deleteUser.parentNode.parentNode
+            trDom.remove();
+        }
+
+    </script>
+</head>
+<body>
+
+<!--3.上传模态框-->
+<div id="upModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">上传文件</h4>
+            </div>
+            <div class="media-body">
+                <form class="form-inline text-center">
+                    <p style="margin-top: 20px">
+                        选择文件:<input type="file" class="form-control" name="fileName">
+                    </p>
+                    <p>
+                        <input type="button" value="开始上传" class="btn btn-primary">
+                        <input type="button" value="返回首页" class="btn btn-primary" data-dismiss="modal">
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--4.主体内容-->
+<div class="container-fluid">
+    <div class="row" style="line-height: 60px">
+        <form class="col-md-8 form-inline ">
+            订单编号:<input type="text" class="form-control" placeholder="请输入订单编号" style="width:140px">
+            商品名称:
+            <input type="text" placeholder="请输入商品名称" class="form-control" style="width:140px">
+            订单状态:
+            <select class="form-control">
+                <option>全部</option>
+                <option>待收货</option>
+                <option>待评论</option>
+                <option>已评论</option>
+            </select>
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>搜索</button>
+        </form>
+
+        <div class="navbar-right text-right" style="margin-right: 20px">
+            <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>下载</a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#upModal"><span class="glyphicon glyphicon-upload"></span>上传</button>
+            <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-remove-sign"></span>批量删除</button>
+        </div>
+    </div>
+    <div class="row" id="table">
+
+    </div>
+    <div class="text-center">
+        <ul class="pagination">
+            <li><a href="#">&laquo;</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
